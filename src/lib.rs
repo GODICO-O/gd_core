@@ -1,13 +1,22 @@
-use std::ffi::CString;
-use std::os::raw::c_char;
+use jni::JNIEnv;
+use jni::objects::{JClass, JString};
+use jni::sys::jint;
 
 #[unsafe(no_mangle)]
-pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1init() -> i32 {
+pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1init(
+    _env: JNIEnv,
+    _class: JClass,
+) -> jint {
+    // Return status 1 (Sukses)
     1
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1get_1version() -> *const c_char {
-    let version = CString::new("v0.1.0-debug").unwrap();
-    version.into_raw()
+pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1get_1version<'local>(
+    env: JNIEnv<'local>,
+    _class: JClass,
+) -> JString<'local> {
+    let output = "v0.1.0-debug";
+    env.new_string(output)
+        .expect("Gagal membuat JNI String!")
 }
