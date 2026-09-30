@@ -17,10 +17,13 @@ jobs:
 
       - name: Install Android NDK
         uses: nttld/setup-ndk@v1
+        id: setup-ndk
         with:
           ndk-version: r25c
 
       - name: Build Shared Library (.so)
+        env:
+          CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang
         run: |
           cargo build --target aarch64-linux-android --release
 
