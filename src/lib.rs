@@ -12,7 +12,7 @@ pub extern "system" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1in
 
 #[unsafe(no_mangle)]
 pub extern "system" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1get_1version<'local>(
-    mut env: JNIEnv<'local>,
+    env: JNIEnv<'local>,
     _class: JClass,
 ) -> JString<'local> {
     let output = "v0.1.0-debug";

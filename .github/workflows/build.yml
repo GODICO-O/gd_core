@@ -13,11 +13,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Android NDK
+        uses: nsetup/setup-ndk@v1
+        with:
+          ndk-version: r25c
+
       - name: Setup Rust & Android Target
         run: |
           rustup target add aarch64-linux-android
 
       - name: Build Shared Library
+        env:
+          CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ env.ANDROID_NDK_HOME }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
         run: |
           cargo build --target aarch64-linux-android --release
 
