@@ -1,0 +1,10 @@
+[package]
+name = "gd_core"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "gd_launcher_core"
+crate-type = ["cdylib"]
+
+[dependencies]
