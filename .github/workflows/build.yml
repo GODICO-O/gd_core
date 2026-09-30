@@ -14,7 +14,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Android NDK
-        uses: nmdasgard/setup-ndk@v1
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
         with:
           ndk-version: r25c
 
@@ -24,7 +25,7 @@ jobs:
 
       - name: Build Shared Library
         env:
-          CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ env.ANDROID_NDK_HOME }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
+          CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
         run: |
           cargo build --target aarch64-linux-android --release
 
