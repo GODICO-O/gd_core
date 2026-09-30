@@ -16,7 +16,7 @@ jobs:
           targets: aarch64-linux-android
 
       - name: Install Android NDK
-        uses: nsetup/setup-ndk@v2
+        uses: n-mori/setup-ndk@v1
         with:
           ndk-version: r25c
 
