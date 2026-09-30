@@ -1,34 +1,28 @@
-name: Build Android Core (.so)
+name: Build Rust Core (.so)
 
 on:
   push:
     branches: [ "main", "master" ]
+  workflow_dispatch:
 
 jobs:
-  build-android:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Install Rust Toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: aarch64-linux-android
+      - name: Setup Rust & Android Target
+        run: |
+          rustup target add aarch64-linux-android
 
-      - name: Install Android NDK
-        uses: nttld/setup-ndk@v1
-        id: setup-ndk
-        with:
-          ndk-version: r25c
-
-      - name: Build Shared Library (.so)
-        env:
-          CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang
+      - name: Build Shared Library
         run: |
           cargo build --target aarch64-linux-android --release
 
-      - name: Upload Core Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libgd_launcher_core.so
-          path: target/aarch64-linux-android/release/libgd_launcher_core.so
+          name: libgd_launcher_core
+          path: target/aarch64-linux-android/release/*.so
