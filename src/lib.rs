@@ -1,11 +1,14 @@
-// Entry point C-ABI untuk dipanggil APK Debug Launcher
-#[unsafe(no_mangle)]
-pub extern "C" fn gd_core_init() -> i32 {
-    // Return 1 sebagai tanda core berhasil berjalan
+use std::ffi::CString;
+use std::os::raw::c_char;
+
+#[no_mangle]
+pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1init() -> i32 {
+    // Return status code 1 (Sukses)
     1
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn gd_core_get_version() -> *const std::os::raw::c_char {
-    "v0.1.0-debug\0".as_ptr() as *const std::os::raw::c_char
+#[no_mangle]
+pub extern "C" fn Java_com_godico_gdlauncher_host_MainActivity_gd_1core_1get_1version() -> *const c_char {
+    let version = CString::new("v0.1.0-debug").unwrap();
+    version.into_raw()
 }
